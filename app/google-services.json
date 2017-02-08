@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "321391543444",
+    "firebase_url": "https://pinpoint-f2f6d.firebaseio.com",
+    "project_id": "pinpoint-f2f6d",
+    "storage_bucket": "pinpoint-f2f6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321391543444:android:4a3903496664b0a8",
+        "android_client_info": {
+          "package_name": "com.example.markfernandez.pinpoint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321391543444-c6cn6mtrqp3jc5nmvsqlc8eaqtrd8qj3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQNPKcxAmNhcEpCxsgh_B3WULAr-6XFv8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

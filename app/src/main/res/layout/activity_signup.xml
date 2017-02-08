@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.markfernandez.pinpoint.SignupActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageButton
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageSelect"/>
+        <EditText
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:elevation="2dp"
+            android:background="@color/colorTextField"
+            android:inputType="text"
+            android:hint="First Name"
+            android:id="@+id/editTextFullName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColorHint="#969696"
+            android:textColor="#424242" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:elevation="2dp"
+            android:background="@color/colorTextField"
+            android:inputType="textEmailAddress"
+            android:hint="Email Address"
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColorHint="#969696"
+            android:textColor="#424242" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:elevation="2dp"
+            android:background="@color/colorTextField"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColorHint="#969696"
+            android:textColor="#424242" />
+        <Button
+            android:id="@+id/buttonCreateAccount"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
+            android:text="Create Account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>
