@@ -1,4 +1,4 @@
-package layout;
+package com.example.markfernandez.pinpoint.fragment;
 
 
 import android.content.Intent;

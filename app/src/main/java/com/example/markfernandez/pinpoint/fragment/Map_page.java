@@ -1,7 +1,6 @@
-package layout;
+package com.example.markfernandez.pinpoint.fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,18 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.markfernandez.pinpoint.MyDialogFrag;
 import com.example.markfernandez.pinpoint.R;
-import com.example.markfernandez.pinpoint.model.EventSender;
-import com.example.markfernandez.pinpoint.model.LatitudeAndLongitude;
-import com.example.markfernandez.pinpoint.model.UserPost;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -42,14 +36,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
@@ -69,7 +55,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     private DatabaseReference mDatabase;
     private String mUserId;
 
-    private boolean retrievedEvent;
 
 
     @Override
@@ -136,8 +121,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     public void onMapReady( GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//        gotoLocation(0.0,0.0);
-//        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //
 //        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            checkLocationPermission();
@@ -155,12 +138,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             mGoogleMap.setMyLocationEnabled(true);
         }
     }
-
-//    private void gotoLocation(double lat, double lng) {
-//        LatLng latLng = new LatLng(lat,lng);
-//        CameraUpdate camUpdate = CameraUpdateFactory.newLatLng(latLng);
-//        mGoogleMap.moveCamera(camUpdate);
-//    }
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -197,18 +174,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
 //        }
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        //EVENT BUS
-            if(retrievedEvent == true){
-
-                    double lat = location.getLatitude();
-                    LatitudeAndLongitude event = new LatitudeAndLongitude();
-                    event.setLat(lat);
-                    EventBus.getDefault().post(event);
-                    Log.e("MARK log","fire this :"+ event);
-
-                    //retrievedEvent = false;
-                }
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -281,17 +246,4 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             // You can add here other case statements according to your requirement.
         }
     }
-
-    // This method will be called when a LatLngvent is posted (in the UI thread for Toast)
-    @Subscribe
-    public void onEventTriggered(EventSender es) {
-//        retrievedlatLng = event.getLat();
-//        latFromEvent.setLat(retrievedlatLng);
-//        Log.e("MARK log","print received 1st:"+ retrievedlatLng);
-        retrievedEvent = es.isEventSend();
-        Log.e("MARK log"," retrieve boolean :"+ retrievedEvent);
-
-
-    }
-
 }

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import layout.Map_page;
-import layout.Newsfeed_page;
-import layout.Profile_page;
+import com.example.markfernandez.pinpoint.fragment.Map_page;
+import com.example.markfernandez.pinpoint.fragment.Newsfeed_page;
+import com.example.markfernandez.pinpoint.fragment.Profile_page;
 
 /**
  * Created by AstroNuts on 1/5/2017.

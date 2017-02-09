@@ -1,4 +1,4 @@
-package com.example.markfernandez.pinpoint;
+package com.example.markfernandez.pinpoint.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.markfernandez.pinpoint.R;
 import com.example.markfernandez.pinpoint.model.EventSender;
 import com.example.markfernandez.pinpoint.model.LatitudeAndLongitude;
 import com.example.markfernandez.pinpoint.model.UserPost;
@@ -52,10 +53,6 @@ public class MyDialogFrag extends DialogFragment  {
     private DatabaseReference mDatabase;
     private String mUserId;
 
-
-    //private String m_emotion;
-    private OnDialogPinPostListner mListener;
-
     private View rootView;
     private Button btnPin;
     private ImageView iv_smile,iv_sad,iv_love,iv_angry;
@@ -66,13 +63,9 @@ public class MyDialogFrag extends DialogFragment  {
     //Variables for full name
     private String fn;
 
-    double retrievedlatLng;
-    private UserPost latFromEvent = new UserPost();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -100,7 +93,6 @@ public class MyDialogFrag extends DialogFragment  {
         //CUSTOMIZING THE DIALOG
         //Dialog myDialog=getDialog();
         //myDialog.setTitle("Title");
-//        data = fill_with_data();
 
         return rootView;
     }
@@ -117,39 +109,6 @@ public class MyDialogFrag extends DialogFragment  {
         dialog.setContentView(R.layout.activity_mydf);
 
         return dialog;
-    }
-
-
-        public void onAttachToParentFragment(Fragment fragment)
-        {
-            try
-            {
-                mListener = (OnDialogPinPostListner)fragment;
-            }
-            catch (ClassCastException e)
-            {
-                throw new ClassCastException(
-                        fragment.toString() + " must implement OnDialogPinPostListner");
-            }
-        }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        onAttachToParentFragment(getParentFragment());
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    //CREATION OF INTERFACE TO BE USE IN OUR ACTIVITY /JUST IGNORE THIS, FOR INTERFACE MAKING SAMPLE ONLY
-    public interface OnDialogPinPostListner{
-        void onPushedPin(List<UserPost> data);
     }
 
 //    public List<UserPost> fill_with_data() {
@@ -192,9 +151,6 @@ public class MyDialogFrag extends DialogFragment  {
         public void onClick(View v) {
             if (v == btnPin){
                 postMethod();
-//                if (mListener != null) {
-//                    mListener.onPushedPin(data);
-//                }
                 dismiss();
             }
         }
@@ -212,16 +168,8 @@ public class MyDialogFrag extends DialogFragment  {
                 String uid = mUserId;
                 int setemoticon = selectedEmoticon;
                 String postData = etYourPost.getText().toString().trim();
-//                HashMap<String,Object> mDate = new HashMap <String, Object>();
-//                mDate.put("dateCreated", ServerValue.TIMESTAMP);
                 String mDate = "";
-
-
-//                if(selectedEmoticon == 2130837819 || selectedEmoticon == 2130837707
-//                        || selectedEmoticon == 2130837818 || selectedEmoticon == 2130837658){
-//                    Toast.makeText(getActivity(),"EMOTICON required!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                double lat = 0;
 
                 if(TextUtils.isEmpty(postData)){
                     Toast.makeText(getActivity(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
@@ -229,13 +177,6 @@ public class MyDialogFrag extends DialogFragment  {
                 }
 
                 if(!TextUtils.isEmpty(postData)){
-                    //EVENT IS SEND!!!
-                    EventSender es = new EventSender();
-                    es.isEventSend();
-                    EventBus.getDefault().post(es);
-                    //event received!
-                    double lat = retrievedlatLng;
-                    Log.e("MARK log","lat received! :" + lat) ;
 
                     String key = mDatabase.child("post").push().getKey();
                     UserPost userPost = new UserPost(author,uid,setemoticon,postData,mDate,lat);
@@ -256,31 +197,5 @@ public class MyDialogFrag extends DialogFragment  {
 
             }
         });
-
-
     }
-
-    // This method will be called when a LatLngvent is posted (in the UI thread for Toast)
-    @Subscribe
-    public void onEvent(LatitudeAndLongitude event) {
-        retrievedlatLng = event.getLat();
-//        latFromEvent.setLat(retrievedlatLng);
-        Log.e("MARK log","print received 1st:"+ retrievedlatLng);
-
-    }
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//
-//    }
-
-//    @Override
-//    public void onStop() {
-//        EventBus.getDefault().unregister(this);
-//        super.onStop();
-//    }
-
 }
