@@ -1,14 +1,8 @@
 package com.example.markfernandez.pinpoint.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,19 +14,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.markfernandez.pinpoint.LatLngEvent;
 import com.example.markfernandez.pinpoint.R;
-import com.example.markfernandez.pinpoint.model.EventSender;
-import com.example.markfernandez.pinpoint.model.LatitudeAndLongitude;
 import com.example.markfernandez.pinpoint.model.UserPost;
 import com.example.markfernandez.pinpoint.model.UserProfile;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,7 +53,8 @@ public class MyDialogFrag extends DialogFragment  {
 
     //Variables for full name
     private String fn;
-
+    double mLat,mLng;
+    LatLngEvent latlngReceived = new LatLngEvent();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -169,7 +161,8 @@ public class MyDialogFrag extends DialogFragment  {
                 int setemoticon = selectedEmoticon;
                 String postData = etYourPost.getText().toString().trim();
                 String mDate = "";
-                double lat = 0;
+                mLat = latlngReceived.getLat();
+                mLng = latlngReceived.getLng();
 
                 if(TextUtils.isEmpty(postData)){
                     Toast.makeText(getActivity(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
@@ -179,7 +172,8 @@ public class MyDialogFrag extends DialogFragment  {
                 if(!TextUtils.isEmpty(postData)){
 
                     String key = mDatabase.child("post").push().getKey();
-                    UserPost userPost = new UserPost(author,uid,setemoticon,postData,mDate,lat);
+                    UserPost userPost = new
+                            UserPost(author,uid,setemoticon,postData,mDate,mLat,mLng);
                     Map<String, Object> postValues = userPost.toMap();
 
                     Map<String, Object> childUpdates = new HashMap<>();
@@ -197,5 +191,25 @@ public class MyDialogFrag extends DialogFragment  {
 
             }
         });
+    }
+
+    // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+    @Subscribe
+    public void onEvent(LatLngEvent event) {
+        latlngReceived.setLat(event.getLat());
+        latlngReceived.setLng(event.getLng());
+        Log.e("MARK log","received: "+ event.getLat());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

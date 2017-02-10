@@ -75,7 +75,6 @@ public class Newsfeed_page extends Fragment   {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     try{
-
                         UserPost userPost = dataSnapshot.getValue(UserPost.class);
 
                         String author = userPost.getAuthorName();
@@ -83,12 +82,13 @@ public class Newsfeed_page extends Fragment   {
                         int emo = userPost.getPostEmotion();
                         String post = userPost.getPostDescription();
                         String date = "";
+                        double mLat = 0;
+                        double mLng = 0;
                         if(userPost.getDateCreatedLong() != 0){
                             date = SIMPLE_DATE_FORMAT.format(new Date(userPost.getDateCreatedLong()));
                             Log.e("MARK log", "Date" + date);
                         }
-                        double latlng = 0;
-                        data.add(new UserPost(author,uid,emo,post,date,latlng));
+                        data.add(new UserPost(author,uid,emo,post,date,mLat,mLng));
 
                     } catch (Exception ex) {
                         Log.e(TAG, ex.getMessage());

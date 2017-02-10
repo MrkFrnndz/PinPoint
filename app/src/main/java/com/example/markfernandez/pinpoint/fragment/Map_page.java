@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.markfernandez.pinpoint.LatLngEvent;
 import com.example.markfernandez.pinpoint.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -37,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+
 
 public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
         , GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -56,13 +59,12 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     private String mUserId;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pinpoint-f2f6d.firebaseio.com/post");
-        mUserId = mFirebaseUser.getUid();
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+//        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pinpoint-f2f6d.firebaseio.com/post");
+//        mUserId = mFirebaseUser.getUid();
 
         //Check for Google API
         if(googleServicesAvailable()){
@@ -86,6 +88,18 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                 //CUSTOM DIALOG FRAGMENT
                 myDiag = new MyDialogFrag();
                 myDiag.show(getFragmentManager(), "Diag");
+                //Fix for subscribing to eventbus
+                myDiag.getFragmentManager().executePendingTransactions();
+
+                Location mLoc = new Location(mLastLocation);
+
+
+                LatLngEvent event = new LatLngEvent();
+                event.setLat(mLoc.getLatitude());
+                event.setLng(mLoc.getLongitude());
+                EventBus.getDefault().post(event);
+                Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & "
+                        + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -190,6 +204,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
+
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {

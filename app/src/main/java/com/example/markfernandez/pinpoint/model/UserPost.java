@@ -20,6 +20,7 @@ public class UserPost {
     String postDescription;
     HashMap<String, Object> dateCreated;
     double lat;
+    double lng;
 
 
     public UserPost() {
@@ -28,15 +29,16 @@ public class UserPost {
 
 
 
-    public UserPost(String authorName, String userId, int postEmotion, String postDescription,String dateCreated, double lat) {
+    public UserPost(String authorName, String userId, int postEmotion, String postDescription,String dateCreated,double lat, double lng) {
         this.authorName = authorName;
         this.userId = userId;
         this.postEmotion = postEmotion;
         this.postDescription = postDescription;
-        this.lat = lat;
         HashMap<String, Object> timestampObj = new HashMap<>();
         timestampObj.put("dateCreated", ServerValue.TIMESTAMP);
         this.dateCreated = timestampObj;
+        this.lat = lat;
+        this.lng = lng;
 
     }
 
@@ -68,9 +70,17 @@ public class UserPost {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+//    public void setLat(double lat) {
+//        this.lat = lat;
+//    }
+
+    public double getLng() {
+        return lng;
     }
+
+//    public void setLng(double lng) {
+//        this.lng = lng;
+//    }
 
     @Exclude
     public long getDateCreatedLong(){
@@ -87,6 +97,7 @@ public class UserPost {
         result.put("postDescription", postDescription);
         result.put("dateCreated", dateCreated);
         result.put("lat",lat);
+        result.put("lng",lng);
 
         return result;
     }
