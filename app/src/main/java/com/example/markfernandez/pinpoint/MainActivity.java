@@ -3,6 +3,7 @@ package com.example.markfernandez.pinpoint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private TextInputLayout txtTIL1;
+    private TextInputLayout txtTIL2;
     private EditText etEmail;
     private EditText etPassword;
     private Button btnSignin;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
 
+        txtTIL1 = (TextInputLayout) findViewById(R.id.txt_input1);
+        txtTIL2 = (TextInputLayout) findViewById(R.id.txt_input2);
+
         etEmail =(EditText)findViewById(R.id.editTextEmail);
         etPassword =(EditText)findViewById(R.id.editTextPassword);
         btnSignin = (Button)findViewById(R.id.buttonSignIn);
@@ -49,35 +55,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void userLogin() {
+        boolean isValid = true;
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Please enter email", Toast.LENGTH_SHORT).show();
-            return;
+            etEmail.setError("Full Name required!");
+            isValid = false;
+        }else{
+            txtTIL1.setErrorEnabled(false);
         }
+
         if(TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Please enter password", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            etPassword.setError("Password required!");
+            isValid = false;
+        }else{txtTIL2.setErrorEnabled(false);}
 
-        progressDialog.setMessage("Logging In...");
-        progressDialog.show();
+        if(isValid){
+            progressDialog.setMessage("Logging In...");
+            progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if(task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                            Toast.makeText(MainActivity.this, "Login Successfull!", Toast.LENGTH_SHORT).show();
+            firebaseAuth.signInWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if(task.isSuccessful()){
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                Toast.makeText(MainActivity.this, "Login Successfull!", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                Toast.makeText(MainActivity.this, "Could not login, Please try again.", Toast.LENGTH_SHORT).show();
                         }
-                        else
-                            Toast.makeText(MainActivity.this, "Could not login, Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        }
     }
 
     @Override

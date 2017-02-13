@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.example.markfernandez.pinpoint.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,10 +30,9 @@ import com.google.firebase.storage.UploadTask;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
     private ImageButton ibSelectImage;
-    private EditText etFullname;
-    private EditText etEmailAddress;
-    private EditText etPassword;
+    private EditText etFullname,etEmailAddress,etPassword;
     private Button btnCreateAccount;
+    private TextInputLayout txtTIL1,txtTIL2,txtTIL3;
 
     private ProgressDialog progressDialog;
 
@@ -45,6 +46,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private static final int GALLERY_REQUEST = 1;
     private StorageReference mStorage;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mStorage = FirebaseStorage.getInstance().getReference();
 
         ibSelectImage = (ImageButton) findViewById(R.id.imageSelect);
+        txtTIL1 = (TextInputLayout)findViewById(R.id.txt_input1);
+        txtTIL2 = (TextInputLayout)findViewById(R.id.txt_input2);
+        txtTIL3 = (TextInputLayout)findViewById(R.id.txt_input3);
         etFullname = (EditText)findViewById(R.id.editTextFullName);
         etEmailAddress = (EditText)findViewById(R.id.editTextEmail);
         etPassword = (EditText)findViewById(R.id.editTextPassword);
@@ -77,40 +82,52 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void registerUser() {
+        boolean isValid = true;
 
         fname = etFullname.getText().toString().trim();
-
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        //FULLNAME VALIDATION
+        if(TextUtils.isEmpty(fname)){
+            etFullname.setError("Full Name required!");
+            isValid = false;
+        }else{txtTIL1.setErrorEnabled(false);}
+        //EMAIL VALIDATION
+        if(TextUtils.isEmpty(email)){
+            etEmailAddress.setError("Email is required!");
+            isValid = false;
+        }else{txtTIL1.setErrorEnabled(false);}
+        //PASSWORD VALIDATION
+        if( TextUtils.isEmpty(password)){
+            etPassword.setError("Password is required!");
+            isValid = false;
+        }else if(password.length() <= 5){
+            etPassword.setError("Minimum of 6 characters!");
+        }else{txtTIL1.setErrorEnabled(false);}
 
-        if(TextUtils.isEmpty(fname) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Please Complete the fields above", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(password.length() <= 5){
-            Toast.makeText(this,"Password should not be less than 5 characters.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if(isValid){
+            progressDialog.setMessage("Registering account...");
+            progressDialog.show();
 
-        progressDialog.setMessage("Registering account...");
-        progressDialog.show();
-
-        mFirebaseAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            saveProfile();
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                            Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                            Toast.makeText(SignupActivity.this, "Could not register, Please try again.", Toast.LENGTH_SHORT).show();
+            mFirebaseAuth.createUserWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                saveProfile();
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                Toast.makeText(SignupActivity.this, "Could not register, Please try again.", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                    }
-                });
+                        }
+                    });
+        }
+
+
     }
 
     private void saveProfile()
