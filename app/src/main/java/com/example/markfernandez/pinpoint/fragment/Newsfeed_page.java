@@ -86,7 +86,7 @@ public class Newsfeed_page extends Fragment   {
                         double mLng = 0;
                         if(userPost.getDateCreatedLong() != 0){
                             date = SIMPLE_DATE_FORMAT.format(new Date(userPost.getDateCreatedLong()));
-                            Log.e("MARK log", "Date" + date);
+                            //Log.e("MARK log", "Date" + date);
                         }
                         data.add(new UserPost(author,uid,emo,post,date,mLat,mLng));
 

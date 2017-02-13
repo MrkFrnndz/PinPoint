@@ -68,7 +68,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
 
         //Check for Google API
         if(googleServicesAvailable()){
-            Toast.makeText(getContext(),"Map available!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(),"Map available!",Toast.LENGTH_LONG).show();
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_map_page, container, false);
             initializeMap();
@@ -98,8 +98,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                 event.setLat(mLoc.getLatitude());
                 event.setLng(mLoc.getLongitude());
                 EventBus.getDefault().post(event);
-                Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & "
-                        + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & " + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
             }
         });
 
