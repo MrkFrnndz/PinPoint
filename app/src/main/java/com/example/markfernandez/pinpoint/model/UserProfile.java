@@ -1,23 +1,34 @@
 package com.example.markfernandez.pinpoint.model;
 
+import android.net.Uri;
+
 /**
  * Created by AstroNuts on 1/12/2017.
  */
 public class UserProfile {
 
-    String fullname;
+    String userName;
+    String userImage;
 
+    public UserProfile() {}
 
-    public UserProfile() {
+    public String getUserName() {
+        return userName;
     }
 
-    public UserProfile(String fullname) {
-        this.fullname = fullname;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getUserImage() {
+        return userImage;
     }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+
 
 
 

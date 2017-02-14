@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
     private ImageButton ibSelectImage;
@@ -38,7 +42,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase,mDatabaseRefUser;
     private String mUserId;
 
     private String fname;
@@ -54,8 +58,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialog = new ProgressDialog(this);
 
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
+        mDatabaseRefUser = FirebaseDatabase.getInstance().getReference().child("users");
 
         ibSelectImage = (ImageButton) findViewById(R.id.imageSelect);
         txtTIL1 = (TextInputLayout)findViewById(R.id.txt_input1);
@@ -67,19 +73,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         btnCreateAccount = (Button)findViewById(R.id.buttonCreateAccount);
 
         btnCreateAccount.setOnClickListener(this);
-        ibSelectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_REQUEST);
-            }
-        });
-
+        ibSelectImage.setOnClickListener(this);
 
     }
 
-
+    private void saveImage() {
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, GALLERY_REQUEST);
+    }
 
     private void registerUser() {
         boolean isValid = true;
@@ -87,6 +89,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         fname = etFullname.getText().toString().trim();
         String email = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+
+        //PROFIE IMAGE VALIDATION
+        if(mImageUri == null){
+            Toast.makeText(SignupActivity.this, "Profile image required!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         //FULLNAME VALIDATION
         if(TextUtils.isEmpty(fname)){
@@ -106,7 +114,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             etPassword.setError("Minimum of 6 characters!");
         }else{txtTIL1.setErrorEnabled(false);}
 
-        if(isValid){
+        if(isValid && mImageUri != null){
             progressDialog.setMessage("Registering account...");
             progressDialog.show();
 
@@ -133,18 +141,20 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void saveProfile()
     {
         // Initialize Firebase Auth and Database Reference
-        StorageReference filePath = mStorage.child("UserPic").child(mImageUri.getLastPathSegment());
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUserId = mFirebaseUser.getUid();
-        UserProfile userProfile = new UserProfile(fname);
+
+        StorageReference filePath = mStorage.child("UserPic").child(mImageUri.getLastPathSegment());
+        //UserProfile userProfile = new UserProfile();
         filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                mDatabase.child("users").child(mUserId).child("userName").setValue(fname);
+                mDatabase.child("users").child(mUserId).child("userImage").setValue(downloadUrl.toString());
             }
         });
-        mDatabase.child("users").child(mUserId).setValue(userProfile);
 
     }
 
@@ -152,15 +162,42 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         if(v == btnCreateAccount) {
             registerUser();
         }
+        else if(v == ibSelectImage){
+            saveImage();
+        }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
-            mImageUri = data.getData();
-            ibSelectImage.setImageURI(mImageUri);
+            try {
+                mImageUri = data.getData();
+                CropImage.activity(mImageUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1,1)
+                        .start(this);
+
+            }catch (Exception e){
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                e = result.getError();
+                Log.e("MARK log","crop error1: " + e);
+            }
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                ibSelectImage.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Log.e("MARK log","crop erro2: " + error);
+            }
         }
     }
 }

@@ -154,7 +154,7 @@ public class MyDialogFrag extends DialogFragment  {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                 fn = userProfile.getFullname();
+                 fn = userProfile.getUserName();
 
                 String author = fn.toString().trim();
                 String uid = mUserId;
@@ -198,7 +198,7 @@ public class MyDialogFrag extends DialogFragment  {
     public void onEvent(LatLngEvent event) {
         latlngReceived.setLat(event.getLat());
         latlngReceived.setLng(event.getLng());
-        Log.e("MARK log","received: "+ event.getLat());
+        //Log.e("MARK log","received: "+ event.getLat());
     }
 
     @Override
