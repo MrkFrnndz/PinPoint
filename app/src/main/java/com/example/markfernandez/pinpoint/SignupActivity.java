@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.markfernandez.pinpoint.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -77,7 +76,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void saveImage() {
+    private void selectImage() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, GALLERY_REQUEST);
@@ -163,7 +162,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             registerUser();
         }
         else if(v == ibSelectImage){
-            saveImage();
+            selectImage();
         }
     }
 
@@ -174,29 +173,21 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
-            try {
                 mImageUri = data.getData();
                 CropImage.activity(mImageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setAspectRatio(1,1)
                         .start(this);
 
-            }catch (Exception e){
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                e = result.getError();
-                Log.e("MARK log","crop error1: " + e);
-            }
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                ibSelectImage.setImageURI(resultUri);
+                mImageUri = result.getUri();
+                ibSelectImage.setImageURI(mImageUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Log.e("MARK log","crop erro2: " + error);
             }
         }
     }
