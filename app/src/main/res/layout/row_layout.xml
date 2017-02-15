@@ -15,45 +15,64 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_Emoticon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:src="@drawable/ic_smile"/>-->
         <ImageView
-            android:id="@+id/iv_Emoticon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_userImage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_smile"/>
+            android:src="@drawable/ic_smile"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/txtAuthorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/iv_Emoticon"
+            android:layout_toRightOf="@+id/iv_userImage"
             android:text="Author Name"
             android:textColor="@color/album_title"
-            android:layout_marginLeft="10dp" />
-
-        <TextView
-            android:id="@+id/txtDateCreated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_Emoticon"
-            android:layout_below="@+id/txtAuthorName"
-            android:text="Date"
-            android:textSize="13sp"
-            android:textColor="@color/colorAccent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/txtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_Emoticon"
-            android:layout_below="@+id/txtDateCreated"
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_below="@+id/txtAuthorName"
             android:text="DESCRIPTION"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtDateCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_below="@+id/txtDescription"
+            android:text="Date"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="10dp"/>
+
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_Emoticon"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:src="@drawable/ic_smile"/>-->
+
+
 
     </RelativeLayout>
 

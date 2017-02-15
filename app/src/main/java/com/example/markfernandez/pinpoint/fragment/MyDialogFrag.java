@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -154,13 +155,14 @@ public class MyDialogFrag extends DialogFragment  {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                 fn = userProfile.getUserName();
 
-                String author = fn.toString().trim();
+                String authorimage = userProfile.getUserImage().toString().trim();
+                String author = userProfile.getUserName().toString().trim();
                 String uid = mUserId;
                 int setemoticon = selectedEmoticon;
                 String postData = etYourPost.getText().toString().trim();
-                String mDate = "";
+                HashMap <String,Object> mDate = new HashMap<>();
+                mDate.put("dateCreated", ServerValue.TIMESTAMP);
                 mLat = latlngReceived.getLat();
                 mLng = latlngReceived.getLng();
 
@@ -172,8 +174,7 @@ public class MyDialogFrag extends DialogFragment  {
                 if(!TextUtils.isEmpty(postData)){
 
                     String key = mDatabase.child("post").push().getKey();
-                    UserPost userPost = new
-                            UserPost(author,uid,setemoticon,postData,mDate,mLat,mLng);
+                    UserPost userPost = new UserPost(authorimage,author,uid,postData,setemoticon,mDate,mLat,mLng);
                     Map<String, Object> postValues = userPost.toMap();
 
                     Map<String, Object> childUpdates = new HashMap<>();

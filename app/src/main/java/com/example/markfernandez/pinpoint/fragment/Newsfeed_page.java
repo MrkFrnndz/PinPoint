@@ -1,6 +1,7 @@
 package com.example.markfernandez.pinpoint.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.markfernandez.pinpoint.R;
-import com.example.markfernandez.pinpoint.Recycler_View_Adapter;
 import com.example.markfernandez.pinpoint.model.UserPost;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -20,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,12 +39,10 @@ public class Newsfeed_page extends Fragment   {
     private DatabaseReference mDatabase;
     private String mUserId;
 
-
-    private List<UserPost> data;
     private View rootView;
 
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//    private String postData;
+    RecyclerView recyclerView;
 
     public Newsfeed_page() {
         // Required empty public constructor
@@ -50,87 +52,68 @@ public class Newsfeed_page extends Fragment   {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("post");
         mUserId = mFirebaseUser.getUid();
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_newsfeed_page, container, false);
 
-        data = fill_with_data(); //getting the values
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        final Recycler_View_Adapter adapter = new Recycler_View_Adapter(data, getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        //end of CARDVIEW/RECYCLERVIEW
-
-        mDatabase.child("post").addChildEventListener(new ChildEventListener() {
-            public static final String TAG = "MARK's error";
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    try{
-                        UserPost userPost = dataSnapshot.getValue(UserPost.class);
-
-                        String author = userPost.getAuthorName();
-                        String uid = userPost.getUserId();
-                        int emo = userPost.getPostEmotion();
-                        String post = userPost.getPostDescription();
-                        String date = "";
-                        double mLat = 0;
-                        double mLng = 0;
-                        if(userPost.getDateCreatedLong() != 0){
-                            date = SIMPLE_DATE_FORMAT.format(new Date(userPost.getDateCreatedLong()));
-                            //Log.e("MARK log", "Date" + date);
-                        }
-                        data.add(new UserPost(author,uid,emo,post,date,mLat,mLng));
-
-                    } catch (Exception ex) {
-                        Log.e(TAG, ex.getMessage());
-                    }
-                }
-
-                adapter.notifyDataSetChanged(); //to load the data if there's a value initially on my Firebase DB
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-    private List<UserPost> fill_with_data() {
-        final List<UserPost> data = new ArrayList<>();
-        return data;
+        FirebaseRecyclerAdapter<UserPost,NewsfeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserPost, NewsfeedViewHolder>(
+                UserPost.class,
+                R.layout.row_layout,
+                NewsfeedViewHolder.class,
+                mDatabase
+            ) {
+
+            @Override
+            protected void populateViewHolder(NewsfeedViewHolder viewHolder, UserPost model, int position) {
+                viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
+                viewHolder.setAuthorName(model.getAuthorName());
+                viewHolder.setDateCreated(model.getDateCreatedLong());
+                viewHolder.setPostDescription(model.getPostDescription());
+            }
+        };
+
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 
-//    @Override
-//    public void onPushedPin(List<UserPost> data) {
-//        data = fill_with_data();
-//    }
+    public static class NewsfeedViewHolder extends RecyclerView.ViewHolder{
+        View mView;
+
+        public NewsfeedViewHolder(View itemView) {
+            super(itemView);
+            itemView = mView;
+        }
+
+        public void setAuthorImage(Context ctx, String authorImage){
+            ImageView post_authorimage = (ImageView)itemView.findViewById(R.id.iv_userImage);
+            Picasso.with(ctx).load(authorImage).into(post_authorimage);
+
+        }
+
+        public void setAuthorName(String authorName){
+            TextView post_authorname = (TextView) itemView.findViewById(R.id.txtAuthorName);
+            post_authorname.setText(authorName);
+        }
+
+        public void setDateCreated(long dateCreatedLong){
+            TextView post_date = (TextView) itemView.findViewById(R.id.txtAuthorName);
+            String date = SIMPLE_DATE_FORMAT.format(new Date(dateCreatedLong));
+            post_date.setText(date);
+        }
+
+        public void setPostDescription(String postDescription){
+            TextView post_description = (TextView) itemView.findViewById(R.id.txtAuthorName);
+            post_description.setText(postDescription);
+        }
+    }
 }
