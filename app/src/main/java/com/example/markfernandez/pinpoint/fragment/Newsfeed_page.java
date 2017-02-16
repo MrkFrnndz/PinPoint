@@ -58,21 +58,20 @@ public class Newsfeed_page extends Fragment   {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_newsfeed_page, container, false);
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
-        return rootView;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+
 
         FirebaseRecyclerAdapter<UserPost,NewsfeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserPost, NewsfeedViewHolder>(
                 UserPost.class,
                 R.layout.row_layout,
                 NewsfeedViewHolder.class,
                 mDatabase
-            ) {
+        ) {
 
             @Override
             protected void populateViewHolder(NewsfeedViewHolder viewHolder, UserPost model, int position) {
@@ -84,14 +83,40 @@ public class Newsfeed_page extends Fragment   {
         };
 
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        return rootView;
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        FirebaseRecyclerAdapter<UserPost,NewsfeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserPost, NewsfeedViewHolder>(
+//                UserPost.class,
+//                R.layout.row_layout,
+//                NewsfeedViewHolder.class,
+//                mDatabase
+//            ) {
+//
+//            @Override
+//            protected void populateViewHolder(NewsfeedViewHolder viewHolder, UserPost model, int position) {
+//                viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
+//                viewHolder.setAuthorName(model.getAuthorName());
+//                viewHolder.setDateCreated(model.getDateCreatedLong());
+//                viewHolder.setPostDescription(model.getPostDescription());
+//            }
+//        };
+//
+//        recyclerView.setAdapter(firebaseRecyclerAdapter);
+//    }
 
     public static class NewsfeedViewHolder extends RecyclerView.ViewHolder{
         View mView;
 
         public NewsfeedViewHolder(View itemView) {
             super(itemView);
-            itemView = mView;
+            mView = itemView;
         }
 
         public void setAuthorImage(Context ctx, String authorImage){
@@ -105,15 +130,15 @@ public class Newsfeed_page extends Fragment   {
             post_authorname.setText(authorName);
         }
 
-        public void setDateCreated(long dateCreatedLong){
-            TextView post_date = (TextView) itemView.findViewById(R.id.txtAuthorName);
-            String date = SIMPLE_DATE_FORMAT.format(new Date(dateCreatedLong));
-            post_date.setText(date);
+        public void setPostDescription(String postDescription){
+            TextView post_description = (TextView) itemView.findViewById(R.id.txtDescription);
+            post_description.setText(postDescription);
         }
 
-        public void setPostDescription(String postDescription){
-            TextView post_description = (TextView) itemView.findViewById(R.id.txtAuthorName);
-            post_description.setText(postDescription);
+        public void setDateCreated(long dateCreatedLong){
+            TextView post_date = (TextView) itemView.findViewById(R.id.txtDateCreated);
+            String date = SIMPLE_DATE_FORMAT.format(new Date(dateCreatedLong));
+            post_date.setText(date);
         }
     }
 }

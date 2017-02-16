@@ -61,7 +61,7 @@
             android:layout_below="@+id/txtDescription"
             android:text="Date"
             android:textSize="12sp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/album_title"
             android:layout_marginLeft="10dp"/>
 
         <!--<ImageView-->
