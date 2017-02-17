@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.markfernandez.pinpoint.LatLngEvent;
 import com.example.markfernandez.pinpoint.R;
+import com.example.markfernandez.pinpoint.model.UserPost;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,10 +36,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 
 public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
@@ -61,14 +67,13 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-//        mFirebaseAuth = FirebaseAuth.getInstance();
-//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-//        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pinpoint-f2f6d.firebaseio.com/post");
-//        mUserId = mFirebaseUser.getUid();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pinpoint-f2f6d.firebaseio.com/post");
+        mUserId = mFirebaseUser.getUid();
 
         //Check for Google API
         if(googleServicesAvailable()){
-            //Toast.makeText(getContext(),"Map available!",Toast.LENGTH_LONG).show();
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_map_page, container, false);
             initializeMap();
@@ -78,6 +83,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             }
         }else {
             // No google Maps Layout
+            Toast.makeText(getContext(),"Google map not available!",Toast.LENGTH_LONG).show();
         }
 
         //FAB
@@ -93,7 +99,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
 
                 Location mLoc = new Location(mLastLocation);
 
-
                 LatLngEvent event = new LatLngEvent();
                 event.setLat(mLoc.getLatitude());
                 event.setLng(mLoc.getLongitude());
@@ -103,6 +108,49 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         });
 
         return rootView;
+    }
+
+    private void showAllMarkers() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserPost userPost = snapshot.getValue(UserPost.class);
+                    createMarker(userPost.getLat(),
+                                userPost.getLng(),
+                                userPost.getAuthorName(),
+                                userPost.getPostDescription(),
+                                userPost.getPostEmotion());
+                    //System.out.println(user.email);
+                }
+                //UserPost userPost = dataSnapshot.getValue(UserPost.class);
+//                ArrayList<UserPost> markersArray = new ArrayList<UserPost>();
+//
+//                for(int i = 0 ; i < markersArray.size() ; i++ ) {
+//
+//                    createMarker(markersArray.get(i).getLat(),
+//                                markersArray.get(i).getLng(),
+//                                markersArray.get(i).getAuthorName(),
+//                                markersArray.get(i).getPostDescription(),
+//                                markersArray.get(i).getPostEmotion());
+//                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
+
+        return mGoogleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .title(title)
+                .snippet(snippet)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile)));
     }
 
     //To check if the service is Available
@@ -134,6 +182,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     public void onMapReady( GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        showAllMarkers();
 //
 //        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            checkLocationPermission();
@@ -191,7 +240,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("You're here!");
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile));
+        //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
         //move map camera
