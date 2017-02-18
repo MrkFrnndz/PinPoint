@@ -182,7 +182,7 @@ public class MyDialogFrag extends DialogFragment  {
                     childUpdates.put("/user-post/" + uid + "/" + key, postValues);
                     mDatabase.updateChildren(childUpdates);
 
-//                    Toast.makeText(getActivity(),"PIN POSTED!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"PIN POSTED!", Toast.LENGTH_SHORT).show();
                 }
 
                 etYourPost.setText("");

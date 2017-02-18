@@ -35,27 +35,5 @@
         android:layout_height="match_parent" >
 
     </android.support.v4.view.ViewPager>
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:text="Logout"-->
-        <!--android:id="@+id/btnLogout"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_above="@+id/appbar"/>-->
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/tvmsg"/>-->
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:text="Medium Text"-->
-        <!--android:textColor="@color/colorAccent"-->
-        <!--android:id="@+id/txtNameofTheUser"-->
-        <!--android:layout_above="@+id/btnLogout"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="53dp" />-->
+
 </android.support.design.widget.CoordinatorLayout>

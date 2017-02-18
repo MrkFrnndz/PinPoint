@@ -56,7 +56,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
-    private Marker mCurrLocationMarker;
+    //private Marker mCurrLocationMarker;
     private MyDialogFrag myDiag;
 
     private FirebaseAuth mFirebaseAuth;
@@ -91,21 +91,26 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //CUSTOM DIALOG FRAGMENT
-                myDiag = new MyDialogFrag();
-                myDiag.show(getFragmentManager(), "Diag");
-                //Fix for subscribing to eventbus
-                myDiag.getFragmentManager().executePendingTransactions();
+                if(mLastLocation == null){
+                    Toast.makeText(getContext(), "Turn your GPS!", Toast.LENGTH_SHORT).show();
+                }else {
+                    //CUSTOM DIALOG FRAGMENT
+                    myDiag = new MyDialogFrag();
+                    myDiag.show(getFragmentManager(), "Diag");
+                    //Fix for subscribing to eventbus
+                    myDiag.getFragmentManager().executePendingTransactions();
 
-                Location mLoc = new Location(mLastLocation);
+                    Location mLoc = new Location(mLastLocation);
 
-                LatLngEvent event = new LatLngEvent();
-                event.setLat(mLoc.getLatitude());
-                event.setLng(mLoc.getLongitude());
-                EventBus.getDefault().post(event);
-                //Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & " + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
+                    LatLngEvent event = new LatLngEvent();
+                    event.setLat(mLoc.getLatitude());
+                    event.setLng(mLoc.getLongitude());
+                    EventBus.getDefault().post(event);
+                    //Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & " + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         return rootView;
     }
@@ -121,19 +126,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                                 userPost.getAuthorName(),
                                 userPost.getPostDescription(),
                                 userPost.getPostEmotion());
-                    //System.out.println(user.email);
                 }
-                //UserPost userPost = dataSnapshot.getValue(UserPost.class);
-//                ArrayList<UserPost> markersArray = new ArrayList<UserPost>();
-//
-//                for(int i = 0 ; i < markersArray.size() ; i++ ) {
-//
-//                    createMarker(markersArray.get(i).getLat(),
-//                                markersArray.get(i).getLng(),
-//                                markersArray.get(i).getAuthorName(),
-//                                markersArray.get(i).getPostDescription(),
-//                                markersArray.get(i).getPostEmotion());
-//                }
             }
 
             @Override
@@ -144,13 +137,26 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     }
 
     protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
+        int setemo = R.drawable.ic_smile;
+        if(iconResID == 2130837858){
+            setemo = R.drawable.ic_smile;
+        }
+        else if(iconResID == 2130837746){
+            setemo = R.drawable.ic_love;
+        }
+        else if(iconResID == 2130837857){
+            setemo = R.drawable.ic_sad;
+        }
+        else if(iconResID == 2130837696){
+            setemo = R.drawable.ic_angry;
+        }
 
         return mGoogleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .anchor(0.5f, 0.5f)
                 .title(title)
                 .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile)));
+                .icon(BitmapDescriptorFactory.fromResource(setemo)));
     }
 
     //To check if the service is Available
@@ -183,11 +189,8 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         showAllMarkers();
-//
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            checkLocationPermission();
-//        }
-//
+        mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
+
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -231,17 +234,15 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     public void onLocationChanged(Location location) {
 
         mLastLocation = location;
-//        if (mCurrLocationMarker != null) {
-//            mCurrLocationMarker.remove();
-//        }
+
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("You're here!");
-        //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile));
-        mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        markerOptions.title("You're here!");
+//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile));
+//        mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
         //move map camera
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -262,18 +263,14 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             // Asking user if explanation is needed
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
                 //Prompt the user once explanation has been shown
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
-
-
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
@@ -300,7 +297,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                     }
                 } else {
                     // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(getContext(), "permission denied", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
