@@ -167,7 +167,7 @@ public class MyDialogFrag extends DialogFragment  {
                 mLng = latlngReceived.getLng();
 
                 if(TextUtils.isEmpty(postData)){
-                    Toast.makeText(getActivity(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

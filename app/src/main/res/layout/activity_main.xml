@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorBackground"
+    android:background="@color/colorBackgroundTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -14,30 +14,30 @@
     tools:context="com.example.markfernandez.pinpoint.MainActivity">
 
     <ImageView
-        android:layout_margin="20dp"
-        android:src="@drawable/logo_loginscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:src="@drawable/pplogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/txt_input1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:textColorHint="#969696">
+        android:layout_marginTop="30dp"
+        android:textColorHint="@color/colorTextHint">
         <EditText
             android:paddingLeft="10dp"
             android:elevation="2dp"
-            android:background="@color/colorTextField"
+            android:background="@drawable/rounded_textfield"
             android:inputType="textEmailAddress"
-            android:hint="Enter your email"
+            android:hint="E-mail"
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColorHint="#969696"
-            android:textColor="#424242" />
+            android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/colorTextFieldText"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -45,35 +45,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textColorHint="#969696">
+        android:layout_marginTop="5dp"
+        android:textColorHint="@color/colorTextHint">
         <EditText
             android:paddingLeft="10dp"
             android:elevation="2dp"
-            android:background="@color/colorTextField"
+            android:background="@drawable/rounded_textfield"
             android:inputType="textPassword"
-            android:hint="Enter your password"
+            android:hint="Password"
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColorHint="#969696"
-            android:textColor="#424242" />
+            android:textColorHint="@color/colorTextHint"
+            android:textColor="@color/colorTextFieldText"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/buttonSignIn"
-        android:background="@color/colorPrimary"
         android:text="Sign in"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_rectangle_button"/>
 
     <TextView
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/textviewSignUp"
         android:text="Don't have an account? Sign up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorTextWhite"
         android:layout_gravity="center"/>
 </LinearLayout>

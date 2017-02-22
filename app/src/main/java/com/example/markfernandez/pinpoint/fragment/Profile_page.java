@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.markfernandez.pinpoint.MainActivity;
 import com.example.markfernandez.pinpoint.R;
@@ -71,8 +72,13 @@ public class Profile_page extends Fragment implements View.OnClickListener {
                 String sUri = userProfile.getUserImage().toString();
 //                Uri imgUri = Uri.parse(sUri);
 //                Uri mImageUri = userProfile.getUserImage();
-                Picasso.with(getContext()).load(sUri).into(ivProfile);
-                txtName.setText(fn);
+                if(getContext() !=null){
+                    Picasso.with(getContext()).load(sUri).into(ivProfile);
+                    txtName.setText(fn);
+                }else{
+                    Toast.makeText(getContext(), "Slow internet connection.", Toast.LENGTH_SHORT).show();
+                }
+
                 //ivProfile.setImageURI(imgUri);
             }
 

@@ -3,66 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/cardview_light_background"
-    android:padding="20dp">
+    android:background="@color/colorBackgroundMain"
+    android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="10dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_smile"
                     android:id="@+id/iv_smile"
-                    android:onClick="onClick" />
+                    android:background="@drawable/ripple_emoticon_button"/>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_love"
-                    android:id="@+id/iv_love"/>
+                    android:id="@+id/iv_love"
+                    android:background="@drawable/ripple_emoticon_button"/>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_sad"
-                    android:id="@+id/iv_sad"/>
+                    android:id="@+id/iv_sad"
+                    android:background="@drawable/ripple_emoticon_button"/>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_angry"
-                    android:id="@+id/iv_angry"/>
+                    android:id="@+id/iv_angry"
+                    android:background="@drawable/ripple_emoticon_button"/>
             </LinearLayout>
 
-            <LinearLayout
+            <EditText
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="100dp"
-                    android:hint="Description . . ."
-                    android:textColorHint="@color/album_title"
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/etYourPost"/>
+                android:maxHeight="100dp"
+                android:hint="Description. . ."
+                android:textColorHint="@color/colorTextHint"
+                android:textColor="@color/colorTextPrimary"
+                android:id="@+id/etYourPost"
+                android:background="@color/colorDialogTextField"
+                android:textSize="20dp"
+                android:padding="10dp"/>
 
-            </LinearLayout>
-            <LinearLayout
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pin"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/btnPin"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"/>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="Pin"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/btnPin"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_rectangle_button"
+                android:textColor="@color/colorTextWhite"
+                android:layout_marginTop="15dp"/>
 
 
 </LinearLayout>
