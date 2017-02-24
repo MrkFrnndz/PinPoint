@@ -110,14 +110,11 @@ public class Newsfeed_page extends Fragment   {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(mProcessLike){
-
                                         if(dataSnapshot.child(mPostKey).hasChild(mUserId)){
-                                        mDatabaseRefLike.child(mPostKey).child(mUserId).removeValue();
-                                        mProcessLike = false;
-
+                                            mDatabaseRefLike.child(mPostKey).child(mUserId).removeValue();
+                                            mProcessLike = false;
                                         }else {
-
-                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue("Random Value");
+                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue("Random value");
                                             mProcessLike = false;
                                         }
                                     }

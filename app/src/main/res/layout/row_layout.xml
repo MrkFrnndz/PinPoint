@@ -34,14 +34,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_angry"/>
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_userImage"-->
-            <!--android:layout_width="35dp"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:src="@drawable/ic_smile"-->
-            <!--android:scaleType="centerCrop"/>-->
 
         <TextView
             android:id="@+id/txtAuthorName"
@@ -88,7 +80,17 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"/>
 
-
+        <TextView
+            android:id="@+id/txtNumOfLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btnLike"
+            android:layout_below="@+id/txtDateCreated"
+            android:text="0"
+            android:textSize="20sp"
+            android:textColor="@color/colorBackgroundTheme"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"/>
 
     </RelativeLayout>
 

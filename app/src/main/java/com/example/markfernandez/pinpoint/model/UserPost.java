@@ -15,7 +15,7 @@ import java.util.Map;
 public class UserPost {
 
     String authorImage,authorName,userId,postDescription;
-    int postEmotion;
+    int postEmotion,postLikes;
     HashMap<String,Object> dateCreated;
     double lat,lng;
 
@@ -37,6 +37,14 @@ public class UserPost {
 
         this.lat = lat;
         this.lng = lng;
+    }
+
+    public int getPostLikes() {
+        return postLikes;
+    }
+
+    public void setPostLikes(int postLikes) {
+        this.postLikes = postLikes;
     }
 
     public String getAuthorImage() {
