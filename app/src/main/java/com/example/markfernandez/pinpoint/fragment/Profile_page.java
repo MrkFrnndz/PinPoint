@@ -26,11 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Profile_page extends Fragment implements View.OnClickListener {
-    private ImageView ivProfile;
+    private CircleImageView ivProfile;
     private TextView txtName;
     private TextView txtMName;
     private TextView txtLname;
@@ -49,7 +51,7 @@ public class Profile_page extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_profile_page, container, false);
-        ivProfile = (ImageView) rootView.findViewById(R.id.imgProfile);
+        ivProfile = (CircleImageView) rootView.findViewById(R.id.imgProfile);
         txtName = (TextView)rootView.findViewById(R.id.txtName);
         txtMName = (TextView)rootView.findViewById(R.id.txtMiddleName);
         txtLname = (TextView)rootView.findViewById(R.id.txtLastName);
@@ -70,10 +72,9 @@ public class Profile_page extends Fragment implements View.OnClickListener {
                 String fn = userProfile.getUserName();
 
                 String sUri = userProfile.getUserImage().toString();
-//                Uri imgUri = Uri.parse(sUri);
-//                Uri mImageUri = userProfile.getUserImage();
+
                 if(getContext() !=null){
-                    Picasso.with(getContext()).load(sUri).into(ivProfile);
+                    Picasso.with(getContext()).load(sUri).noFade().into(ivProfile);
                     txtName.setText(fn);
                 }else{
                     Toast.makeText(getContext(), "Slow internet connection.", Toast.LENGTH_SHORT).show();

@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -45,7 +47,7 @@ public class Newsfeed_page extends Fragment   {
     private View rootView;
     private boolean mProcessLike = false;
 
-    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
     RecyclerView recyclerView;
 
     public Newsfeed_page() {
@@ -171,8 +173,8 @@ public class Newsfeed_page extends Fragment   {
             });
         }
         public void setAuthorImage(Context ctx, String authorImage){
-            ImageView post_authorimage = (ImageView)mView.findViewById(R.id.iv_userImage);
-            Picasso.with(ctx).load(authorImage).into(post_authorimage);
+            CircleImageView post_authorimage = (CircleImageView)mView.findViewById(R.id.iv_userImage);
+            Picasso.with(ctx).load(authorImage).noFade().into(post_authorimage);
 
         }
 

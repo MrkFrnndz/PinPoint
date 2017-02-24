@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SignupActivity" android:theme="@style/AppTheme" >
+        <activity android:name=".SignupActivity" android:theme="@style/SignupTheme" >
             <intent-filter>
                 <action android:name="com.example.markfernandez.pinpoint.SignupActivity" />
                 <category android:name="android.intent.category.DEFAULT" />

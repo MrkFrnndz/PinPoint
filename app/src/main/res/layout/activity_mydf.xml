@@ -13,30 +13,30 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center">
 
-                <ImageView
+                <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_smile"
                     android:id="@+id/iv_smile"
-                    android:background="@drawable/ripple_emoticon_button"/>
-                <ImageView
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_love"
                     android:id="@+id/iv_love"
-                    android:background="@drawable/ripple_emoticon_button"/>
-                <ImageView
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_sad"
                     android:id="@+id/iv_sad"
-                    android:background="@drawable/ripple_emoticon_button"/>
-                <ImageView
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_angry"
                     android:id="@+id/iv_angry"
-                    android:background="@drawable/ripple_emoticon_button"/>
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
             </LinearLayout>
 
             <EditText

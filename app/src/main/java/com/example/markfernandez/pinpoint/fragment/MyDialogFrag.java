@@ -2,6 +2,7 @@ package com.example.markfernandez.pinpoint.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -47,7 +49,7 @@ public class MyDialogFrag extends DialogFragment  {
 
     private View rootView;
     private Button btnPin;
-    private ImageView iv_smile,iv_sad,iv_love,iv_angry;
+    private ImageButton iv_smile,iv_sad,iv_love,iv_angry;
     private EditText etYourPost;
     private List<UserPost> data;
     private int selectedEmoticon;
@@ -66,16 +68,16 @@ public class MyDialogFrag extends DialogFragment  {
 
         rootView = inflater.inflate(R.layout.activity_mydf, container, false);
 
-//        data = fill_with_data();
+        //data = fill_with_data();
 
         //UI CASTING
-        iv_smile = (ImageView) rootView.findViewById(R.id.iv_smile);
+        iv_smile = (ImageButton) rootView.findViewById(R.id.iv_smile);
             iv_smile.setOnClickListener(emoticonSelection);
-        iv_love = (ImageView) rootView.findViewById(R.id.iv_love);
+        iv_love = (ImageButton) rootView.findViewById(R.id.iv_love);
             iv_love.setOnClickListener(emoticonSelection);
-        iv_sad = (ImageView) rootView.findViewById(R.id.iv_sad);
+        iv_sad = (ImageButton) rootView.findViewById(R.id.iv_sad);
             iv_sad.setOnClickListener(emoticonSelection);
-        iv_angry = (ImageView) rootView.findViewById(R.id.iv_angry);
+        iv_angry = (ImageButton) rootView.findViewById(R.id.iv_angry);
             iv_angry.setOnClickListener(emoticonSelection);
 
 
@@ -100,7 +102,6 @@ public class MyDialogFrag extends DialogFragment  {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.activity_mydf);
-
         return dialog;
     }
 
@@ -144,7 +145,7 @@ public class MyDialogFrag extends DialogFragment  {
         public void onClick(View v) {
             if (v == btnPin){
                 postMethod();
-                dismiss();
+//                dismiss();
             }
         }
 
@@ -168,7 +169,7 @@ public class MyDialogFrag extends DialogFragment  {
 
                 if(TextUtils.isEmpty(postData)){
                     Toast.makeText(getContext(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
-                    return;
+                    dismiss();
                 }
 
                 if(!TextUtils.isEmpty(postData)){
@@ -183,6 +184,7 @@ public class MyDialogFrag extends DialogFragment  {
                     mDatabase.updateChildren(childUpdates);
 
                     Toast.makeText(getContext(),"PIN POSTED!", Toast.LENGTH_SHORT).show();
+                    dismiss();
                 }
 
                 etYourPost.setText("");

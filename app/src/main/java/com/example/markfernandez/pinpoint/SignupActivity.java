@@ -4,11 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +60,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialog = new ProgressDialog(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -166,8 +170,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,5 +192,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 Exception error = result.getError();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                startActivity(new Intent(this,MainActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

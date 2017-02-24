@@ -5,12 +5,17 @@
         <item name="colorPrimary">@color/colorBackgroundTheme</item>
         <item name="colorPrimaryDark">@color/colorStatusBar</item>
         <item name="colorAccent">@color/colorTextFieldText</item>
+        <item name="colorControlHighlight">@color/colorTextFieldText</item>
+        <item name="android:colorBackground">@color/colorBackgroundMain</item>
     </style>
 
-    <style name="SignupTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="SignupTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorBackgroundTheme</item>
         <item name="colorPrimaryDark">@color/colorStatusBar</item>
+        <item name="colorAccent">@color/colorTextFieldText</item>
+        <item name="android:textColorPrimary">@color/colorTextWhite</item>
+        <item name="android:colorBackground">@color/colorBackgroundMain</item>
     </style>
 
     <style name="ToolbarAndTabTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -19,7 +24,13 @@
         <item name="colorPrimaryDark">@color/colorStatusBar</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!--CUSTOM FOR RIPPLE DIALOG FRAGMENT-->
+    <style name="colorControlHighlight_bla" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorTextFieldText</item>
+    </style>
+
 </resources>

@@ -3,11 +3,13 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
     android:paddingRight="2dp"
     android:paddingLeft="2dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
     app:cardBackgroundColor="@color/colorCard"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -16,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-
         <!--<ImageView-->
             <!--android:id="@+id/iv_Emoticon"-->
             <!--android:layout_width="wrap_content"-->
@@ -24,14 +25,23 @@
             <!--android:layout_alignParentLeft="true"-->
             <!--android:layout_alignParentTop="true"-->
             <!--android:src="@drawable/ic_smile"/>-->
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/iv_userImage"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            app:civ_border_color="@color/colorBackgroundMain"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_smile"
-            android:scaleType="centerCrop"/>
+            android:src="@drawable/ic_angry"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_userImage"-->
+            <!--android:layout_width="35dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:src="@drawable/ic_smile"-->
+            <!--android:scaleType="centerCrop"/>-->
 
         <TextView
             android:id="@+id/txtAuthorName"
@@ -53,7 +63,8 @@
             android:text="User Post"
             android:textSize="16sp"
             android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/txtDateCreated"
@@ -73,7 +84,9 @@
             android:background="#00ffffff"
             android:id="@+id/btnLike"
             android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDateCreated"/>
+            android:layout_below="@+id/txtDateCreated"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"/>
 
 
 
