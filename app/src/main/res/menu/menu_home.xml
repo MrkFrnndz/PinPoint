@@ -7,16 +7,16 @@
         android:id="@+id/action_location"
         android:orderInCategory="200"
         android:title="Location Off"
-        android:icon="@drawable/ic_location_off_white_36dp"
+        android:icon="@drawable/ic_location_on_white_36dp"
         app:showAsAction="ifRoom"
         ></item>
-    <item
-        android:id="@+id/action_notification"
-        android:orderInCategory="200"
-        android:title="Notification"
-        android:icon="@drawable/ic_notifications_white_36dp"
-        app:showAsAction="ifRoom"
-        ></item>
+    <!--<item-->
+        <!--android:id="@+id/action_notification"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="Notification"-->
+        <!--android:icon="@drawable/ic_notifications_white_36dp"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--&gt;</item>-->
     <!--<item-->
         <!--android:id="mapTypeNone"-->
         <!--android:title="None"/>-->

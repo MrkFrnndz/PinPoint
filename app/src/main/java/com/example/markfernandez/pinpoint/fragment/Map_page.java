@@ -92,7 +92,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             @Override
             public void onClick(View view) {
                 if(mLastLocation == null){
-                    Toast.makeText(getContext(), "Turn your GPS!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Turn ON your GPS!", Toast.LENGTH_SHORT).show();
                 }else {
                     //CUSTOM DIALOG FRAGMENT
                     myDiag = new MyDialogFrag();

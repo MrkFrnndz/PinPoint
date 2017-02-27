@@ -109,14 +109,26 @@ public class Newsfeed_page extends Fragment   {
                             mDatabaseRefLike.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
+                                    UserPost userLike = new UserPost();
+                                    int likeCount = 0;
+                                    int gLikes = 0;
                                     if(mProcessLike){
+
                                         if(dataSnapshot.child(mPostKey).hasChild(mUserId)){
                                             mDatabaseRefLike.child(mPostKey).child(mUserId).removeValue();
                                             mProcessLike = false;
+
                                         }else {
-                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue("Random value");
+                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue(likeCount + 1);
+                                            userLike.setPostLikes(likeCount);
                                             mProcessLike = false;
                                         }
+
+                                        for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                                            UserPost getLikes= snap.getValue(UserPost.class);
+                                            gLikes = getLikes.getPostLikes();
+                                        }
+                                        mDatabaseRefPost.child(mPostKey).child("postLikeUgh").setValue(gLikes);
                                     }
                                 }
                                 @Override
@@ -152,6 +164,7 @@ public class Newsfeed_page extends Fragment   {
 
             mDatabaseLike.keepSynced(true);
         }
+
         public void setLikeButton(final String mPostKey){
             mDatabaseLike.addValueEventListener(new ValueEventListener() {
                 @Override

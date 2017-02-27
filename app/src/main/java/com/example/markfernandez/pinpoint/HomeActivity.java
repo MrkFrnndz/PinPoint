@@ -74,17 +74,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-        boolean toggle = false;
 
         if(id == R.id.action_location){
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
-            item.setIcon(R.drawable.ic_location_on_white_36dp);
-            item.setTitle("Location On");
-            toggle = true;
-        }else{
-            item.setIcon(R.drawable.ic_location_off_white_36dp);
-            item.setTitle("Location Off");
         }
 
         return super.onOptionsItemSelected(item);
