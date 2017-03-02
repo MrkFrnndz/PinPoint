@@ -179,6 +179,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 CropImage.activity(mImageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setAspectRatio(1,1)
+                        .setCropShape(CropImageView.CropShape.OVAL)
                         .start(this);
 
         }

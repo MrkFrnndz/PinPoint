@@ -26,69 +26,82 @@
                 android:maxHeight="96dp"/>
             <TextView
                 android:layout_toRightOf="@+id/imgProfile"
-                android:padding="10dp"
                 android:textColor="@color/colorTextPrimary"
                 android:id="@+id/txtName"
                 android:text="Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"/>
+                android:textSize="18dp"
+                android:layout_marginLeft="35dp"/>
             <TextView
                 android:layout_below="@+id/txtName"
                 android:layout_toRightOf="@+id/imgProfile"
-                android:padding="10dp"
                 android:textColor="@color/colorTextSecondary"
-                android:id="@+id/txtMiddleName"
-                android:text="Reputation"
+                android:id="@+id/txtReputation"
+                android:text="Reputation :"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"/>
+                android:textSize="15dp"
+                android:layout_marginLeft="35dp"/>
             <TextView
-                android:layout_below="@+id/txtMiddleName"
-                android:layout_toRightOf="@+id/imgProfile"
+                android:layout_below="@+id/txtName"
+                android:layout_toRightOf="@+id/txtReputation"
                 android:textColor="@color/colorTextSecondary"
-                android:id="@+id/txtLastName"
+                android:id="@+id/txtRepuValue"
                 android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:layout_marginLeft="40dp"/>
+                android:textSize="15dp"
+                android:layout_marginLeft="5dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:id="@+id/btnLogout"
+                android:background="@drawable/ripple_rectangle_button"
+                android:textColor="@color/colorTextWhite"
+                android:layout_below="@+id/txtRepuValue"
+                android:layout_toRightOf="@+id/imgProfile"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="15dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ripple_rectangle_button"
+                android:id="@+id/btnDelete"
+                android:textColor="@color/colorTextWhite"
+                android:layout_below="@+id/txtRepuValue"
+                android:layout_toRightOf="@+id/btnLogout"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"/>
         </RelativeLayout>
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="5dp">-->
 
+            <!---->
+        <!--</LinearLayout>-->
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight=".5"
-            android:id="@+id/btnLogout"
-            android:background="@drawable/ripple_rectangle_button"
-            android:textColor="@color/colorTextWhite"
-            android:layout_margin="5dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight=".5"
-            android:background="@drawable/ripple_rectangle_button"
-            android:id="@+id/btnDelete"
-            android:textColor="@color/colorTextWhite"
-            android:layout_margin="5dp"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/colorTextSecondary"
+            android:text="Recent pins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginBottom="5dp"/>
 
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"

@@ -2,10 +2,8 @@ package com.example.markfernandez.pinpoint.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +48,9 @@ public class MyDialogFrag extends DialogFragment  {
     private Button btnPin;
     private ImageButton iv_smile,iv_sad,iv_love,iv_angry;
     private EditText etYourPost;
-    private List<UserPost> data;
     private int selectedEmoticon;
 
     //Variables for full name
-    private String fn;
     double mLat,mLng;
     LatLngEvent latlngReceived = new LatLngEvent();
 
@@ -68,7 +63,6 @@ public class MyDialogFrag extends DialogFragment  {
 
         rootView = inflater.inflate(R.layout.activity_mydf, container, false);
 
-        //data = fill_with_data();
 
         //UI CASTING
         iv_smile = (ImageButton) rootView.findViewById(R.id.iv_smile);
@@ -85,10 +79,6 @@ public class MyDialogFrag extends DialogFragment  {
             btnPin.setOnClickListener(pinPushed);
         etYourPost = (EditText)rootView.findViewById(R.id.etYourPost);
 
-        //CUSTOMIZING THE DIALOG
-        //Dialog myDialog=getDialog();
-        //myDialog.setTitle("Title");
-
         return rootView;
     }
 
@@ -104,11 +94,6 @@ public class MyDialogFrag extends DialogFragment  {
         dialog.setContentView(R.layout.activity_mydf);
         return dialog;
     }
-
-//    public List<UserPost> fill_with_data() {
-//        final List<UserPost> data = new ArrayList<>();
-//        return data;
-//    }
 
     //FOR EMOTICON SELECTION
     View.OnClickListener emoticonSelection = new View.OnClickListener(){
@@ -145,7 +130,6 @@ public class MyDialogFrag extends DialogFragment  {
         public void onClick(View v) {
             if (v == btnPin){
                 postMethod();
-//                dismiss();
             }
         }
 
@@ -167,12 +151,20 @@ public class MyDialogFrag extends DialogFragment  {
                 mLat = latlngReceived.getLat();
                 mLng = latlngReceived.getLng();
 
+
                 if(TextUtils.isEmpty(postData)){
                     Toast.makeText(getContext(),"EMPTY POST!", Toast.LENGTH_SHORT).show();
                     dismiss();
+                    return;
                 }
 
-                if(!TextUtils.isEmpty(postData)){
+                if(selectedEmoticon == 0){
+                    Toast.makeText(getContext(),"EMOJI MARKER REQUIRE!", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                    return;
+                }
+
+                if(!TextUtils.isEmpty(postData) && selectedEmoticon != 0){
 
                     String key = mDatabase.child("post").push().getKey();
                     UserPost userPost = new UserPost(authorimage,author,uid,postData,setemoticon,mDate,mLat,mLng);
@@ -201,7 +193,6 @@ public class MyDialogFrag extends DialogFragment  {
     public void onEvent(LatLngEvent event) {
         latlngReceived.setLat(event.getLat());
         latlngReceived.setLng(event.getLng());
-        //Log.e("MARK log","received: "+ event.getLat());
     }
 
     @Override

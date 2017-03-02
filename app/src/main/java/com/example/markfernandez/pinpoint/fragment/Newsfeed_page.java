@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.markfernandez.pinpoint.R;
@@ -19,7 +17,6 @@ import com.example.markfernandez.pinpoint.model.UserPost;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,9 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,8 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Newsfeed_page extends Fragment   {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabaseRefPost;
-    private DatabaseReference mDatabaseRefLike;
+    private DatabaseReference mDatabaseRefPost,mDatabaseRefLike,mDatabaseRefUserPost;
     private String mUserId;
 
     private View rootView;
@@ -59,6 +53,7 @@ public class Newsfeed_page extends Fragment   {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabaseRefPost = FirebaseDatabase.getInstance().getReference().child("post");
+        mDatabaseRefUserPost = FirebaseDatabase.getInstance().getReference().child("user-post");
         mDatabaseRefLike = FirebaseDatabase.getInstance().getReference().child("like");
         mUserId = mFirebaseUser.getUid();
 
@@ -89,6 +84,7 @@ public class Newsfeed_page extends Fragment   {
                 final String mPostKey = getRef(position).getKey();
 
                 viewHolder.setLikeButton(mPostKey);
+                viewHolder.setPostLikes(model.getPostLikes());
                 viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
                 viewHolder.setAuthorName(model.getAuthorName());
                 viewHolder.setDateCreated(model.getDateCreatedLong());
@@ -109,26 +105,22 @@ public class Newsfeed_page extends Fragment   {
                             mDatabaseRefLike.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    UserPost userLike = new UserPost();
-                                    int likeCount = 0;
-                                    int gLikes = 0;
+                                    int likeCounter = (int) dataSnapshot.child(mPostKey).getChildrenCount();
+
                                     if(mProcessLike){
-
-                                        if(dataSnapshot.child(mPostKey).hasChild(mUserId)){
+                                        if(dataSnapshot.child(mPostKey).hasChild(mUserId)) {
                                             mDatabaseRefLike.child(mPostKey).child(mUserId).removeValue();
+                                            likeCounter--;
                                             mProcessLike = false;
-
-                                        }else {
-                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue(likeCount + 1);
-                                            userLike.setPostLikes(likeCount);
+                                        } else {
+                                            mDatabaseRefLike.child(mPostKey).child(mUserId).setValue(true);
+                                            likeCounter++;
                                             mProcessLike = false;
                                         }
+                                        // update value in "post/postId/postLikes" & "user-post/userId/postId/postLikes
+                                        mDatabaseRefPost.child(mPostKey).child("postLikes").setValue(likeCounter);
+                                        //mDatabaseRefUserPost.updateChildren();
 
-                                        for (DataSnapshot snap: dataSnapshot.getChildren()) {
-                                            UserPost getLikes= snap.getValue(UserPost.class);
-                                            gLikes = getLikes.getPostLikes();
-                                        }
-                                        mDatabaseRefPost.child(mPostKey).child("postLikeUgh").setValue(gLikes);
                                     }
                                 }
                                 @Override
@@ -170,10 +162,10 @@ public class Newsfeed_page extends Fragment   {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.child(mPostKey).hasChild(mAuth.getCurrentUser().getUid())){
-                            mLikeButton.setImageResource(R.drawable.ic_thumb_up_green_36dp);
+                            mLikeButton.setImageResource(R.drawable.ic_like_green_18dp);
 
                         }else {
-                            mLikeButton.setImageResource(R.drawable.ic_thumb_up_gray_36dp);
+                            mLikeButton.setImageResource(R.drawable.ic_like_gray_18dp);
                         }
                 }
                 @Override
@@ -202,6 +194,12 @@ public class Newsfeed_page extends Fragment   {
             TextView post_date = (TextView) mView.findViewById(R.id.txtDateCreated);
             String date = SIMPLE_DATE_FORMAT.format(new Date(dateCreatedLong));
             post_date.setText(date);
+        }
+
+        public void setPostLikes(int postLikes){
+            TextView post_likes = (TextView) mView.findViewById(R.id.txtNumOfLikes);
+            String sLikes = Integer.toString(postLikes);
+            post_likes.setText(sLikes   );
         }
     }
 }

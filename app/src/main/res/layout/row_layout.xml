@@ -71,7 +71,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_thumb_up_gray_36dp"
+            android:src="@drawable/ic_like_gray_18dp"
             android:background="#00ffffff"
             android:id="@+id/btnLike"
             android:layout_toRightOf="@+id/iv_userImage"
@@ -86,10 +86,10 @@
             android:layout_toRightOf="@+id/btnLike"
             android:layout_below="@+id/txtDateCreated"
             android:text="0"
-            android:textSize="20sp"
-            android:textColor="@color/colorBackgroundTheme"
+            android:textSize="10sp"
+            android:textColor="@color/colorTextSecondary"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="10dp"/>
 
     </RelativeLayout>
 
