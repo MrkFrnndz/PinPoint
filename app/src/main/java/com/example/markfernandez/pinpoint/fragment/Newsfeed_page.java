@@ -174,6 +174,7 @@ public class Newsfeed_page extends Fragment   {
                 }
             });
         }
+
         public void setAuthorImage(Context ctx, String authorImage){
             CircleImageView post_authorimage = (CircleImageView)mView.findViewById(R.id.iv_userImage);
             Picasso.with(ctx).load(authorImage).noFade().into(post_authorimage);

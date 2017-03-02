@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +43,7 @@ public class Profile_page extends Fragment implements View.OnClickListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabaseRefUser;
-    private DatabaseReference mDatabaseRefUserPost;
+    private DatabaseReference mDatabaseRefUser,mDatabaseRefUserPost,mDatabaseRefUserPostRoot,mDatabaseRefPost;
     private String mUserId;
 
     private Button buttonLogout;
@@ -71,7 +71,8 @@ public class Profile_page extends Fragment implements View.OnClickListener {
         mDatabaseRefUser = FirebaseDatabase.getInstance().getReference();
         mUserId = mFirebaseUser.getUid();
         mDatabaseRefUserPost = FirebaseDatabase.getInstance().getReference().child("user-post").child(mUserId);
-
+        mDatabaseRefUserPostRoot = FirebaseDatabase.getInstance().getReference().child("user-post");
+        mDatabaseRefPost = FirebaseDatabase.getInstance().getReference().child("post");
         buttonLogout = (Button)rootView.findViewById(R.id.btnLogout);
         buttonLogout.setOnClickListener(this);
 
@@ -89,6 +90,9 @@ public class Profile_page extends Fragment implements View.OnClickListener {
 
             @Override
             protected void populateViewHolder(ProfileViewHolder viewHolder, UserPost model, int position) {
+                final String mPostKey = getRef(position).getKey();
+
+                viewHolder.setDeleteButton(mPostKey);
                 viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
                 viewHolder.setAuthorName(model.getAuthorName());
                 viewHolder.setDateCreated(model.getDateCreatedLong());
@@ -98,6 +102,26 @@ public class Profile_page extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(View v) {
                         //DO THIS WHEN ITEM CLICKED!
+                    }
+                });
+
+                viewHolder.mDeleteButtonPost.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDatabaseRefUserPostRoot.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.child(mUserId).hasChild(mPostKey)) {
+                                    mDatabaseRefUserPostRoot.child(mUserId).child(mPostKey).removeValue();
+                                    mDatabaseRefPost.child(mPostKey).removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 });
             }
@@ -146,11 +170,33 @@ public class Profile_page extends Fragment implements View.OnClickListener {
     //NEW CLASS
     public static class ProfileViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        ImageButton mDeleteButtonPost;
+        DatabaseReference mDatabaseUserPost;
+        FirebaseAuth mAuth;
 
         public ProfileViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
 
+            mView = itemView;
+            mDatabaseUserPost = FirebaseDatabase.getInstance().getReference().child("user-post");
+            mAuth = FirebaseAuth.getInstance();
+
+            mDeleteButtonPost = (ImageButton) mView.findViewById(R.id.ib_delete);
+        }
+
+        public void setDeleteButton(final String mPostKey){
+            mDatabaseUserPost.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(mAuth.getCurrentUser().getUid()).hasChild(mPostKey)){
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
         public void setAuthorImage(Context ctx, String authorImage){
