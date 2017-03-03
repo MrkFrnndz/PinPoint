@@ -1,6 +1,5 @@
 package com.example.markfernandez.pinpoint;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;

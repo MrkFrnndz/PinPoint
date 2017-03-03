@@ -1,11 +1,7 @@
 package com.example.markfernandez.pinpoint.model;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

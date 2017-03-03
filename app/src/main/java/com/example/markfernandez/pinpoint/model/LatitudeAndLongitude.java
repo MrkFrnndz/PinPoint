@@ -1,7 +1,5 @@
 package com.example.markfernandez.pinpoint.model;
 
-import com.google.android.gms.maps.model.LatLng;
-
 /**
  * Created by AstroNuts on 2/6/2017.
  */

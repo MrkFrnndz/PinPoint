@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Newsfeed_page extends Fragment   {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabaseRefPost,mDatabaseRefLike,mDatabaseRefUserPost;
+    private DatabaseReference mDatabaseRefPost,mDatabaseRefLike;
     private String mUserId;
 
     private View rootView;
@@ -53,7 +53,6 @@ public class Newsfeed_page extends Fragment   {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabaseRefPost = FirebaseDatabase.getInstance().getReference().child("post");
-        mDatabaseRefUserPost = FirebaseDatabase.getInstance().getReference().child("user-post");
         mDatabaseRefLike = FirebaseDatabase.getInstance().getReference().child("like");
         mUserId = mFirebaseUser.getUid();
 
@@ -119,8 +118,6 @@ public class Newsfeed_page extends Fragment   {
                                         }
                                         // update value in "post/postId/postLikes" & "user-post/userId/postId/postLikes
                                         mDatabaseRefPost.child(mPostKey).child("postLikes").setValue(likeCounter);
-                                        //mDatabaseRefUserPost.updateChildren();
-
                                     }
                                 }
                                 @Override

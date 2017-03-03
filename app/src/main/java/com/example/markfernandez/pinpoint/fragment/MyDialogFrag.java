@@ -31,7 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

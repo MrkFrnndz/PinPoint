@@ -11,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 
 
 public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
@@ -56,7 +54,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
-    //private Marker mCurrLocationMarker;
     private MyDialogFrag myDiag;
 
     private FirebaseAuth mFirebaseAuth;
@@ -99,6 +96,7 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                     //CUSTOM DIALOG FRAGMENT
                     myDiag = new MyDialogFrag();
                     myDiag.show(getFragmentManager(), "Diag");
+
                     //Fix for subscribing to eventbus
                     myDiag.getFragmentManager().executePendingTransactions();
 
@@ -108,7 +106,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                     event.setLat(mLoc.getLatitude());
                     event.setLng(mLoc.getLongitude());
                     EventBus.getDefault().post(event);
-                    //Toast.makeText(getContext(), "occured: "+ mLoc.getLatitude() +" & " + mLoc.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -239,12 +236,6 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
 
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(latLng);
-//        markerOptions.title("You're here!");
-//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_smile));
-//        mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
         //move map camera
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
