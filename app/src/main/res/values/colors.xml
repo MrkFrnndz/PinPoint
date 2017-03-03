@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#83cf1c</color>-->
-    <!--<color name="colorPrimaryDark">#689F38</color>-->
-    <!--<color name="colorAccent">#5c3108</color>-->
-    <!--<color name="colorBackground">#eceef0</color>-->
-    <!--<color name="colorTextField">#ffffff</color>-->
-    <!--<color name="colorPrimaryText">#212121</color>-->
-    <!--<color name="colorSecondaryText">#757575</color>-->
-    <!--<color name="colorTabIndicator">#3b5c12</color>-->
-
-    <!--<color name="viewBg">#f1f5f8</color>-->
-    <!--<color name="album_title">#4c4c4c</color>-->
     <color name="colorStatusBar">#569e21</color>
     <color name="colorBackgroundTheme">#75c33b</color>
-    <color name="colorTextField">#e5e5e5</color>
-    <!--<color name="colorButton">#32731f</color>-->
+    <color name="colorTextField">#a7ed73</color>
     <color name="colorButton">#569e21</color>
     <color name="colorTextFieldText">#32731f</color>
-    <color name="colorDialogTextField">#ffffff</color>
+    <color name="colorDialogTextField">#a7ed73</color>
     <color name="colorBackgroundMain">#e5e5e5</color>
     <color name="colorTextPrimary">#444444</color>
     <color name="colorTextSecondary">#868686</color>
-    <color name="colorTextHint">#909090</color>
+    <color name="colorTextHint">#69b92d</color>
     <color name="colorTextWhite">#ffffff</color>
     <color name="colorCard">#ffffff</color>
-
 </resources>

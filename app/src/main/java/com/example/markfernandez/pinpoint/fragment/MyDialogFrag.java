@@ -101,19 +101,19 @@ public class MyDialogFrag extends DialogFragment  {
             switch (v.getId())
             {
                 case R.id.iv_smile:
-                    iv_smile.setTag(R.drawable.ic_smile);
+                    iv_smile.setTag(R.drawable.ic_joy_36dp);
                     selectedEmoticon = getDrawableId(iv_smile);
                     break;
                 case R.id.iv_love:
-                    iv_love.setTag(R.drawable.ic_love);
+                    iv_love.setTag(R.drawable.ic_love_36dp);
                     selectedEmoticon = getDrawableId(iv_love);
                     break;
                 case R.id.iv_sad:
-                    iv_sad.setTag(R.drawable.ic_sad);
+                    iv_sad.setTag(R.drawable.ic_sad_36dp);
                     selectedEmoticon = getDrawableId(iv_sad);
                     break;
                 case R.id.iv_angry:
-                    iv_angry.setTag(R.drawable.ic_angry);
+                    iv_angry.setTag(R.drawable.ic_angry_36dp);
                     selectedEmoticon = getDrawableId(iv_angry);
                     break;
             }

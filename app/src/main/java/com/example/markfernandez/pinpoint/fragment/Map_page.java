@@ -136,18 +136,19 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     }
 
     protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
-        int setemo = R.drawable.ic_smile;
-        if(iconResID == 2130837858){
-            setemo = R.drawable.ic_smile;
+        int setemo = R.drawable.ic_joy_36dp;
+
+        if(iconResID == R.drawable.ic_joy_36dp){
+            setemo = R.drawable.ic_joy_36dp;
         }
-        else if(iconResID == 2130837746){
-            setemo = R.drawable.ic_love;
+        else if(iconResID == R.drawable.ic_love_36dp){
+            setemo = R.drawable.ic_love_36dp;
         }
-        else if(iconResID == 2130837857){
-            setemo = R.drawable.ic_sad;
+        else if(iconResID == R.drawable.ic_sad_36dp){
+            setemo = R.drawable.ic_sad_36dp;
         }
-        else if(iconResID == 2130837696){
-            setemo = R.drawable.ic_angry;
+        else if(iconResID == R.drawable.ic_angry_36dp){
+            setemo = R.drawable.ic_angry_36dp;
         }
 
         return mGoogleMap.addMarker(new MarkerOptions()

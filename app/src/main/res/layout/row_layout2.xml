@@ -26,7 +26,7 @@
             app:civ_border_color="@color/colorBackgroundMain"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_angry"/>
+            android:src="@drawable/ic_joy_36dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorBackgroundMain"
+    android:background="@color/colorBackgroundTheme"
     android:padding="16dp">
 
             <LinearLayout
@@ -14,26 +14,39 @@
                 android:gravity="center">
 
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_smile"
-                    android:id="@+id/iv_smile"/>
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_joy_36dp"
+                    android:id="@+id/iv_smile"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_love"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_love_36dp"
                     android:id="@+id/iv_love"
                     android:background="?attr/selectableItemBackgroundBorderless"/>
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_sad"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_sad_36dp"
                     android:id="@+id/iv_sad"
                     android:background="?attr/selectableItemBackgroundBorderless"/>
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_angry"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_angry_36dp"
                     android:id="@+id/iv_angry"
                     android:background="?attr/selectableItemBackgroundBorderless"/>
             </LinearLayout>
