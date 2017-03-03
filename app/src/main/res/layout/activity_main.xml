@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColorHint="@color/colorTextHint"
-            android:textColor="@color/colorTextFieldText"/>
+            android:textColor="@color/colorTextPrimary"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textColorHint="@color/colorTextHint"
-            android:textColor="@color/colorTextFieldText"/>
+            android:textColor="@color/colorTextPrimary"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

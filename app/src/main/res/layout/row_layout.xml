@@ -46,37 +46,39 @@
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/txtDescription"
+            android:id="@+id/txtDateCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_userImage"
             android:layout_below="@+id/txtAuthorName"
+            android:text="Date"
+            android:textSize="10sp"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_below="@+id/txtDateCreated"
             android:text="User Post"
             android:textSize="18sp"
             android:textColor="@color/colorTextSecondary"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/txtDateCreated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDescription"
-            android:text="Date"
-            android:textSize="10sp"
-            android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"/>
+
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_like_gray_18dp"
+            android:src="@drawable/ic_thumb_up_gray_24dp"
             android:background="#00ffffff"
             android:id="@+id/btnLike"
             android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDateCreated"
-            android:layout_marginTop="5dp"
+            android:layout_below="@+id/txtDescription"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
 
         <TextView
@@ -84,12 +86,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/btnLike"
-            android:layout_below="@+id/txtDateCreated"
+            android:layout_below="@+id/txtDescription"
             android:text="0"
-            android:textSize="10sp"
+            android:textSize="16sp"
             android:textColor="@color/colorTextSecondary"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="13dp"/>
 
     </RelativeLayout>
 

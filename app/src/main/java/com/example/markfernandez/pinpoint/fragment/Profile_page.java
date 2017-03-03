@@ -76,7 +76,7 @@ public class Profile_page extends Fragment implements View.OnClickListener {
         buttonLogout = (Button)rootView.findViewById(R.id.btnLogout);
         buttonLogout.setOnClickListener(this);
 
-
+        mDatabaseRefUser.keepSynced(true);
 
         //RECYCLERVIEW
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());

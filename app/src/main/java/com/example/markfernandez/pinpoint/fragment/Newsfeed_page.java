@@ -162,10 +162,10 @@ public class Newsfeed_page extends Fragment   {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.child(mPostKey).hasChild(mAuth.getCurrentUser().getUid())){
-                            mLikeButton.setImageResource(R.drawable.ic_like_green_18dp);
+                            mLikeButton.setImageResource(R.drawable.ic_thumb_up_green_24dp);
 
                         }else {
-                            mLikeButton.setImageResource(R.drawable.ic_like_gray_18dp);
+                            mLikeButton.setImageResource(R.drawable.ic_thumb_up_gray_24dp);
                         }
                 }
                 @Override

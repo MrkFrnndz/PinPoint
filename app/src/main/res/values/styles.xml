@@ -22,6 +22,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorBackgroundTheme</item>
         <item name="colorPrimaryDark">@color/colorStatusBar</item>
+        <item name="colorControlHighlight">@color/colorTextFieldText</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

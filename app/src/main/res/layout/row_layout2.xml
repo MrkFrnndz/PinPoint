@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/iv_userImage"
@@ -26,6 +27,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_angry"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ib_delete"
+                android:background="#00ffffff"
+                android:src="@drawable/ic_delete_gray_36dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/txtAuthorName"
@@ -38,37 +52,30 @@
             android:layout_marginLeft="10dp"
             android:textSize="16sp"/>
 
-        <ImageButton
+        <TextView
+            android:id="@+id/txtDateCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtAuthorName"
-            android:id="@+id/ib_delete"
-            android:background="#00ffffff"
-            android:src="@drawable/ic_delete_gray_18dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_below="@+id/txtAuthorName"
+            android:text="Date"
+            android:textSize="10sp"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/txtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtAuthorName"
+            android:layout_below="@+id/txtDateCreated"
             android:text="User Post"
             android:textSize="18sp"
             android:textColor="@color/colorTextSecondary"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/txtDateCreated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDescription"
-            android:text="Date"
-            android:textSize="10sp"
-            android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"/>
+
 
     </RelativeLayout>
 

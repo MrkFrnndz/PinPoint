@@ -5,7 +5,6 @@
     android:background="@color/colorBackgroundTheme"
     tools:context="com.example.markfernandez.pinpoint.SignupActivity"
 
-
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:textColorHint="@color/colorTextHint">
         <EditText
             android:paddingLeft="10dp"
@@ -44,7 +43,7 @@
             android:id="@+id/editTextFullName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColor="@color/colorTextFieldText" />
+            android:textColor="@color/colorTextPrimary" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -52,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:textColorHint="@color/colorTextHint">
         <EditText
             android:paddingLeft="10dp"
@@ -63,7 +62,7 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColor="@color/colorTextFieldText" />
+            android:textColor="@color/colorTextPrimary" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -71,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:textColorHint="@color/colorTextHint">
         <EditText
             android:paddingLeft="10dp"
@@ -82,12 +81,12 @@
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textColor="@color/colorTextFieldText" />
+            android:textColor="@color/colorTextPrimary" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
             android:id="@+id/buttonCreateAccount"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/ripple_rectangle_button"
             android:text="Create Account"
             android:layout_width="match_parent"

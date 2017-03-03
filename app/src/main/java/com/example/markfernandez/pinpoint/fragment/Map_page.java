@@ -72,6 +72,8 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pinpoint-f2f6d.firebaseio.com/post");
         mUserId = mFirebaseUser.getUid();
 
+        mDatabase.keepSynced(true);
+
         //Check for Google API
         if(googleServicesAvailable()){
             // Inflate the layout for this fragment
