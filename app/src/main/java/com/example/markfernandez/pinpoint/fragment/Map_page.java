@@ -3,6 +3,7 @@ package com.example.markfernandez.pinpoint.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
@@ -16,7 +17,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +72,10 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     public AddressResultReceiver mResultReceiver;
     private boolean mAddressRequested;
     private static final String TAG = "Map__page" ;
-    private String mAddressOutput;
+    private String mAddressOutput = null;
+
+    private ProgressDialog progressDialog;
+    private boolean launchDf = false;
 
 
     @Override
@@ -87,6 +90,8 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         //for MAP ADDRESS
         mResultReceiver = new AddressResultReceiver(new Handler());
         mAddressRequested = false;
+
+        progressDialog = new ProgressDialog(getContext());
 
         //Check for Google API
         if(googleServicesAvailable()){
@@ -109,29 +114,31 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             public void onClick(View view) {
                 if(mLastLocation == null){
                     Toast.makeText(getContext(), "Turn ON your GPS!", Toast.LENGTH_SHORT).show();
-                }else {
+                }
+                else {
                     //for MAP ADDRESS
                     if (mGoogleApiClient.isConnected() && mLastLocation != null) {
                         startIntentService();
+
+                        if (mAddressOutput != null && launchDf != false) {
+                            //CUSTOM DIALOG FRAGMENT
+                            myDiag = new MyDialogFrag();
+                            myDiag.show(getFragmentManager(), "Diag");
+
+                            //Fix for subscribing to eventbus
+                            myDiag.getFragmentManager().executePendingTransactions();
+
+                            Location mLoc = new Location(mLastLocation);
+
+                            LatLngEvent event = new LatLngEvent();
+                            event.setMapAddress(mAddressOutput);
+                            event.setLat(mLoc.getLatitude());
+                            event.setLng(mLoc.getLongitude());
+                            EventBus.getDefault().post(event);
+                            //Toast.makeText(getContext(), "Address Established!", Toast.LENGTH_SHORT).show();
+                        }
+                        mAddressRequested = true;
                     }
-                    mAddressRequested = true;
-                    //updateUIWidgets();
-
-                    //CUSTOM DIALOG FRAGMENT
-                    myDiag = new MyDialogFrag();
-                    myDiag.show(getFragmentManager(), "Diag");
-
-                    //Fix for subscribing to eventbus
-                    myDiag.getFragmentManager().executePendingTransactions();
-
-                    Location mLoc = new Location(mLastLocation);
-
-                    LatLngEvent event = new LatLngEvent();
-                    event.setMapAddress(mAddressOutput);
-                    event.setLat(mLoc.getLatitude());
-                    event.setLng(mLoc.getLongitude());
-                    EventBus.getDefault().post(event);
-                    Toast.makeText(getContext(),"My Map address!" + mAddressOutput,Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -362,12 +369,12 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             // Display the address string
             // or an error message sent from the intent service.
             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
-            Log.v(TAG, "My address: " + mAddressOutput);
 
             // Show a toast message if an address was found.
             if (resultCode == Constants.SUCCESS_RESULT) {
-                String successResult = getString(R.string.address_found);
-                Toast.makeText(getContext(), successResult , Toast.LENGTH_SHORT).show();
+//                String successResult = getString(R.string.address_found);
+//                Toast.makeText(getContext(), successResult , Toast.LENGTH_SHORT).show();
+                launchDf = true;
             }
 
         }
