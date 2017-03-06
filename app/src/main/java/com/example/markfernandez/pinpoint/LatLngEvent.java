@@ -5,6 +5,15 @@ package com.example.markfernandez.pinpoint;
  */
 public class LatLngEvent {
     double lat,lng;
+    String mapAddress;
+
+    public String getMapAddress() {
+        return mapAddress;
+    }
+
+    public void setMapAddress(String mapAddress) {
+        this.mapAddress = mapAddress;
+    }
 
     public double getLat() {
         return lat;

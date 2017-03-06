@@ -1,23 +1,31 @@
 package com.example.markfernandez.pinpoint.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.markfernandez.pinpoint.FetchAddressIntentService;
 import com.example.markfernandez.pinpoint.LatLngEvent;
 import com.example.markfernandez.pinpoint.R;
+import com.example.markfernandez.pinpoint.constants.Constants;
 import com.example.markfernandez.pinpoint.model.UserPost;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -61,6 +69,11 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
     private DatabaseReference mDatabase;
     private String mUserId;
 
+    public AddressResultReceiver mResultReceiver;
+    private boolean mAddressRequested;
+    private static final String TAG = "Map__page" ;
+    private String mAddressOutput;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -70,6 +83,10 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         mUserId = mFirebaseUser.getUid();
 
         mDatabase.keepSynced(true);
+
+        //for MAP ADDRESS
+        mResultReceiver = new AddressResultReceiver(new Handler());
+        mAddressRequested = false;
 
         //Check for Google API
         if(googleServicesAvailable()){
@@ -93,6 +110,13 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                 if(mLastLocation == null){
                     Toast.makeText(getContext(), "Turn ON your GPS!", Toast.LENGTH_SHORT).show();
                 }else {
+                    //for MAP ADDRESS
+                    if (mGoogleApiClient.isConnected() && mLastLocation != null) {
+                        startIntentService();
+                    }
+                    mAddressRequested = true;
+                    //updateUIWidgets();
+
                     //CUSTOM DIALOG FRAGMENT
                     myDiag = new MyDialogFrag();
                     myDiag.show(getFragmentManager(), "Diag");
@@ -103,9 +127,11 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
                     Location mLoc = new Location(mLastLocation);
 
                     LatLngEvent event = new LatLngEvent();
+                    event.setMapAddress(mAddressOutput);
                     event.setLat(mLoc.getLatitude());
                     event.setLng(mLoc.getLongitude());
                     EventBus.getDefault().post(event);
+                    Toast.makeText(getContext(),"My Map address!" + mAddressOutput,Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -223,6 +249,18 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+
+        //for MAP ADDRESS
+        if (mLastLocation != null) {
+            // Determine whether a Geocoder is available.
+            if (!Geocoder.isPresent()) {
+                Toast.makeText(getContext(), R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (mAddressRequested) {
+                startIntentService();
+            }
+        }
     }
 
     @Override
@@ -300,4 +338,46 @@ public class Map_page extends Fragment implements OnMapReadyCallback, GoogleApiC
             // You can add here other case statements according to your requirement.
         }
     }
+
+    //for MAP ADDRESS
+    protected void startIntentService() {
+        //mResultReceiver = new AddressResultReceiver(null);
+
+        Intent intent = new Intent(getContext(), FetchAddressIntentService.class);
+        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, mLastLocation);
+        //startService(intent);
+        getContext().startService(intent);
+    }
+
+    @SuppressLint("ParcelCreator")
+    class AddressResultReceiver extends ResultReceiver {
+
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            // Display the address string
+            // or an error message sent from the intent service.
+            mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
+            Log.v(TAG, "My address: " + mAddressOutput);
+
+            // Show a toast message if an address was found.
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                String successResult = getString(R.string.address_found);
+                Toast.makeText(getContext(), successResult , Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if(mGoogleApiClient.isConnected()){
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
 }

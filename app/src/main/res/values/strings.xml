@@ -19,5 +19,11 @@
     <string name="Cancel">Cancel</string>
     <string name="open_location_settings">Settings</string>
     <string name="gps_network_not_enabled">Location is disabled</string>
+    <string name="service_not_available">Service is not available!</string>
+    <string name="invalid_lat_long_used">Invalid Lattitude and Longitude used!</string>
+    <string name="no_address_found">No address was found</string>
+    <string name="address_found">Address found!</string>
+    <string name="no_geocoder_available">No Geocoder available!</string>
+    <string name="no_location_found">No Location found!</string>
 
 </resources>

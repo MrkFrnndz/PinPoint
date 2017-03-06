@@ -96,6 +96,7 @@ public class Profile_page extends Fragment implements View.OnClickListener {
                 viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
                 viewHolder.setAuthorName(model.getAuthorName());
                 viewHolder.setDateCreated(model.getDateCreatedLong());
+                viewHolder.setMapAddress(model.getPostMapAddress());
                 viewHolder.setPostDescription(model.getPostDescription());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +220,11 @@ public class Profile_page extends Fragment implements View.OnClickListener {
             TextView post_date = (TextView) mView.findViewById(R.id.txtDateCreated);
             String date = SIMPLE_DATE_FORMAT.format(new Date(dateCreatedLong));
             post_date.setText(date);
+        }
+
+        public void setMapAddress(String postMapAddress){
+            TextView post_address = (TextView) mView.findViewById(R.id.txtMapAddress);
+            post_address.setText(postMapAddress);
         }
     }
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="2dp"
+    app:cardElevation="1dp"
     android:paddingRight="2dp"
     android:paddingLeft="2dp"
     android:layout_marginLeft="8dp"
@@ -43,29 +44,65 @@
             android:text="Author Name"
             android:textColor="@color/colorTextPrimary"
             android:layout_marginLeft="10dp"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/txtDateCreated"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/txtDescription"
+            android:layout_marginTop="18dp">
+            <TextView
+                android:id="@+id/txtDateCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="12dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_userImage"
+            android:id="@+id/iv_pin"
+            android:src="@drawable/ic_location_on_green_18dp"
+            android:scaleType="centerCrop"
             android:layout_below="@+id/txtAuthorName"
-            android:text="Date"
-            android:textSize="10sp"
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_marginLeft="7dp"/>
+        <TextView
+            android:id="@+id/txtMapAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtAuthorName"
+            android:layout_toRightOf="@+id/iv_pin"
+            android:text=""
+            android:textSize="12dp"
             android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="2dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"
+            android:id="@+id/line"
+            android:layout_below="@+id/txtMapAddress"
+            android:layout_marginTop="7dp"/>
+
 
         <TextView
             android:id="@+id/txtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDateCreated"
+            android:layout_below="@+id/line"
             android:text="User Post"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="-30dp"
             android:layout_marginTop="5dp"/>
 
 
@@ -79,7 +116,7 @@
             android:layout_toRightOf="@+id/iv_userImage"
             android:layout_below="@+id/txtDescription"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="-30dp"/>
 
         <TextView
             android:id="@+id/txtNumOfLikes"

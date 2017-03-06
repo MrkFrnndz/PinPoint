@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="2dp"
+    app:cardElevation="1dp"
+
     android:paddingRight="2dp"
     android:paddingLeft="2dp"
     android:layout_marginLeft="8dp"
@@ -28,18 +30,7 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_joy_36dp"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_delete"
-                android:background="#00ffffff"
-                android:src="@drawable/ic_delete_gray_36dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/txtAuthorName"
@@ -52,28 +43,70 @@
             android:layout_marginLeft="10dp"
             android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/txtDateCreated"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_userImage"
+            android:src="@drawable/ic_location_on_green_18dp"
+            android:id="@+id/iv_pin"
             android:layout_below="@+id/txtAuthorName"
-            android:text="Date"
-            android:textSize="10sp"
+            android:layout_toRightOf="@+id/iv_userImage"
+            android:layout_marginLeft="7dp"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/txtMapAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_pin"
+            android:layout_below="@+id/txtAuthorName"
+            android:text="Address"
+            android:textSize="12dp"
             android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="2dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"
+            android:id="@+id/line"
+            android:layout_below="@+id/txtMapAddress"
+            android:layout_marginTop="7dp"/>
 
         <TextView
             android:id="@+id/txtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_userImage"
-            android:layout_below="@+id/txtDateCreated"
+            android:layout_below="@+id/line"
             android:text="User Post"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textColor="@color/colorTextSecondary"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/txtDescription">
+
+            <TextView
+                android:id="@+id/txtDateCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="12dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="10dp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ib_delete"
+                android:background="#00ffffff"
+                android:src="@drawable/ic_delete_gray_36dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
 
 

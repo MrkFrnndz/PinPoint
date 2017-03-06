@@ -51,6 +51,7 @@ public class MyDialogFrag extends DialogFragment  {
 
     //Variables for full name
     double mLat,mLng;
+    String mMapAdd;
     LatLngEvent latlngReceived = new LatLngEvent();
 
     @Override
@@ -147,6 +148,8 @@ public class MyDialogFrag extends DialogFragment  {
                 String postData = etYourPost.getText().toString().trim();
                 HashMap <String,Object> mDate = new HashMap<>();
                 mDate.put("dateCreated", ServerValue.TIMESTAMP);
+
+                mMapAdd = latlngReceived.getMapAddress();
                 mLat = latlngReceived.getLat();
                 mLng = latlngReceived.getLng();
 
@@ -166,7 +169,7 @@ public class MyDialogFrag extends DialogFragment  {
                 if(!TextUtils.isEmpty(postData) && selectedEmoticon != 0){
 
                     String key = mDatabase.child("post").push().getKey();
-                    UserPost userPost = new UserPost(authorimage,author,uid,postData,setemoticon,mDate,mLat,mLng);
+                    UserPost userPost = new UserPost(authorimage,author,uid,postData,setemoticon,mDate,mMapAdd,mLat,mLng);
                     Map<String, Object> postValues = userPost.toMap();
 
                     Map<String, Object> childUpdates = new HashMap<>();
@@ -190,6 +193,7 @@ public class MyDialogFrag extends DialogFragment  {
     // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
     @Subscribe
     public void onEvent(LatLngEvent event) {
+        latlngReceived.setMapAddress(event.getMapAddress());
         latlngReceived.setLat(event.getLat());
         latlngReceived.setLng(event.getLng());
     }

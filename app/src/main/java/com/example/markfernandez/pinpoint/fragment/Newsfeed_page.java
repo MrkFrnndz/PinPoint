@@ -87,6 +87,7 @@ public class Newsfeed_page extends Fragment   {
                 viewHolder.setAuthorImage(getContext(),model.getAuthorImage());
                 viewHolder.setAuthorName(model.getAuthorName());
                 viewHolder.setDateCreated(model.getDateCreatedLong());
+                viewHolder.setMapAddress(model.getPostMapAddress());
                 viewHolder.setPostDescription(model.getPostDescription());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +182,11 @@ public class Newsfeed_page extends Fragment   {
         public void setAuthorName(String authorName){
             TextView post_authorname = (TextView) mView.findViewById(R.id.txtAuthorName);
             post_authorname.setText(authorName);
+        }
+
+        public void setMapAddress(String postMapAddress){
+            TextView post_address = (TextView) mView.findViewById(R.id.txtMapAddress);
+            post_address.setText(postMapAddress);
         }
 
         public void setPostDescription(String postDescription){
